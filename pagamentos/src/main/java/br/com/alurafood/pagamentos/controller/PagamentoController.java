@@ -2,7 +2,6 @@ package br.com.alurafood.pagamentos.controller;
 
 import java.net.URI;
 
-import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -54,8 +53,7 @@ public class PagamentoController {
 
         URI endereco = uriBuilder.path("/pagamentos/{id}").buildAndExpand(pagamento.getId()).toUri();
         
-        var message = new Message(("Pagamento concluído com id " + pagamento.getId()).getBytes());
-        rabbitTemplate.send("pagamento.concluido", message);
+        rabbitTemplate.convertAndSend("pagamentos.ex", "", pagamento);
         return ResponseEntity.created(endereco).body(pagamento);
     }
 
