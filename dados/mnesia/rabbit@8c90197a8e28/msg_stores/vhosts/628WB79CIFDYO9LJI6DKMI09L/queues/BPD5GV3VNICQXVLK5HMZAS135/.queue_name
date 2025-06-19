@@ -1,0 +1,3 @@
+VHOST: /
+QUEUE: pagamentos.detalhes-pedido-dlq
+INDEX: v2
